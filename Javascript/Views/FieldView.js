@@ -4,6 +4,7 @@ function FieldView(field, eltParent) {
   this.field = field;
 
   this.createHTML(eltParent);
+  this.attachEvent();
   this.listen();
 }
 
@@ -51,7 +52,7 @@ FieldView.prototype.createHtmlWaterBlock = function() {
 FieldView.prototype.createHtmlProgressBlock = function() {
   var htmlEltProgressBlock = $('<div class="field-progress-container">');
   this.htmlEltLevel = $('<progress value="0" max="100"></progress>');
-  this.hmtlEltTextValue = $('<span class="field-progress-value">');
+  this.hmtlEltTextValue = $('<span class="field-progress-value">0 %</span>');
 
   htmlEltProgressBlock.append(this.htmlEltLevel, this.hmtlEltTextValue);
   return htmlEltProgressBlock;
@@ -59,9 +60,23 @@ FieldView.prototype.createHtmlProgressBlock = function() {
 
 FieldView.prototype.listen = function() {
   // water using by field
-  this.field.on('water_use', this.waterValueAction.bind(this));
+  this.field.on('water_change', this.waterValueAction.bind(this));
+  // level grow of the field
+  this.field.on('level_change', this.levelValueAction.bind(this));
 };
 
 FieldView.prototype.waterValueAction = function() {
   this.htmlEltWaterNb.html(this.field.getNbWaterLeft());
+};
+
+FieldView.prototype.levelValueAction = function() {
+  this.htmlEltLevel.attr('value', this.field.getLevel());
+  this.hmtlEltTextValue.html(this.field.getLevel() + ' %');
+};
+
+FieldView.prototype.attachEvent = function() {
+  // event on click to irrigate button
+  this.htmlEltBtnAddWater.click(this.emit.bind(this, 'fill_water'));
+  // event on click to harvest button
+  this.htmlEltBtnAddWater.click(this.emit.bind(this, 'harvest_field'));
 };

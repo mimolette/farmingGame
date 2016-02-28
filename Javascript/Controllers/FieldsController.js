@@ -2,6 +2,7 @@ function FieldsController() {
 
   // array of field and views
   this.fields = [];
+  this.allowFillWater = true;
 
 }
 
@@ -23,9 +24,11 @@ FieldsController.prototype.listen = function(field) {
 
 // function to fill the water of the field
 FieldsController.prototype.fillWaterAction = function(field) {
-  var index = this.fields.indexOf(field);
-  if(~index) {
-    this.fields[index].field.fillWater();
+  if (this.allowFillWater) {
+    var index = this.fields.indexOf(field);
+    if(~index) {
+      this.fields[index].field.fillWater();
+    }
   }
 };
 
@@ -35,4 +38,29 @@ FieldsController.prototype.harvestAction = function(field) {
   if(~index) {
     this.fields[index].field.harvest();
   }
+};
+
+FieldsController.prototype.gameStartAction = function() {
+  this.fields.forEach(function(field) {
+    field.field.start();
+  });
+};
+
+FieldsController.prototype.gamePauseAction = function() {
+  this.fields.forEach(function(field) {
+    field.field.pause();
+  });
+};
+
+FieldsController.prototype.getFields = function() {
+  return this.fields;
+};
+
+FieldsController.prototype.getAllowFillWater = function() {
+  return this.allowFillWater;
+};
+
+FieldsController.prototype.setAllowFillWater = function(bool) {
+  if(bool !== this.allowFillWater) this.allowFillWater = bool;
+  return this;
 };

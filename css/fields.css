@@ -1,5 +1,5 @@
 .field-btn-container button[disabled] {
-  opacity: 0.2;
+  opacity: 0.4;
 }
 
 progress[value] {

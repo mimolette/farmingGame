@@ -3,7 +3,7 @@ function FieldView(field, eltParent) {
 
   this.field = field;
 
-  this.createHTML(eltParent);
+  this.createHtml(eltParent);
   this.attachEvent();
   this.listen();
 }
@@ -12,7 +12,7 @@ function FieldView(field, eltParent) {
 FieldView.prototype = Object.create(EventEmitter.prototype);
 FieldView.prototype.constructor = FieldView;
 
-FieldView.prototype.createHTML = function(eltParent) {
+FieldView.prototype.createHtml = function(eltParent) {
   this.htmlEltFieldBlock = $('<div class="field-container">');
 
   // the top block contain water and button

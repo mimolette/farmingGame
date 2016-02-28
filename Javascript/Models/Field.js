@@ -3,7 +3,7 @@ function Field() {
 
   // attribut of a field
   this.level = 0;
-  this.nbwaterLeft = conf.water.init;
+  this.nbwaterLeft = conf.game.initial.nbLiterWater;
   this.idInterval = null;
   this.start();
   this.maturity = false;

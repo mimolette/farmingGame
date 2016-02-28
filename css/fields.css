@@ -1,0 +1,38 @@
+.field-btn-container button[disabled] {
+  opacity: 0.2;
+}
+
+progress[value] {
+  /* Reset the default appearance */
+  -webkit-appearance: none;
+  appearance: none;
+
+  width: 200px;
+  height: 10px;
+}
+
+/* the progress bar container */
+progress[value]::-webkit-progress-bar {
+  background-color: #eee;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+
+/* the value of the bar */
+progress[value]::-webkit-progress-value {
+  background-image:
+      -webkit-linear-gradient(-45deg,
+        transparent 15%, rgba(0, 0, 0, .1) 15%,
+        rgba(0,0, 0, .1) 30%, transparent 30%,
+        transparent 45%, rgba(0, 0, 0, .1) 45%,
+        rgba(0,0, 0, .1) 60%, transparent 60%,
+        transparent 75%, rgba(0, 0, 0, .1) 75%,
+        rgba(0,0, 0, .1) 90%, transparent 90%),
+      -webkit-linear-gradient(top,
+      rgba(255, 255, 255, 0.3),
+        rgba(0, 0, 0, 0.3)),
+      -webkit-linear-gradient(left, rgba(137, 255, 59, 0.41), rgba(137, 255, 59, 1));
+
+  border-radius: 5px;
+  background-size: 35px 20px, 100% 100%, 100% 100%;
+}

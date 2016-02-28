@@ -17,11 +17,22 @@ FieldsController.prototype.addField = function(fieldObj) {
 FieldsController.prototype.listen = function(field) {
   // listen the fill_water event
   field.view.on('fill_water', this.fillWaterAction.bind(this, field));
+  // listen the harvest of the field
+  field.view.on('harvest_field', this.harvestAction.bind(this, field));
 };
 
+// function to fill the water of the field
 FieldsController.prototype.fillWaterAction = function(field) {
   var index = this.fields.indexOf(field);
   if(~index) {
     this.fields[index].field.fillWater();
+  }
+};
+
+// function to harvest a field
+FieldsController.prototype.harvestAction = function(field) {
+  var index = this.fields.indexOf(field);
+  if(~index) {
+    this.fields[index].field.harvest();
   }
 };

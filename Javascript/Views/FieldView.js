@@ -33,7 +33,7 @@ FieldView.prototype.createHTML = function(eltParent) {
 FieldView.prototype.createHtmlBtnBlock = function() {
   var htmlEltBtnBlock = $('<div class="field-btn-container">');
   this.htmlEltBtnAddWater = $('<button class="field-btn-water-add">Irriguer</button>');
-  this.htmlEltBtnHarvest = $('<button class="field-btn-harvest">Récolter</button>');
+  this.htmlEltBtnHarvest = $('<button class="field-btn-harvest" disabled>Récolter</button>');
 
   htmlEltBtnBlock.append(this.htmlEltBtnAddWater, this.htmlEltBtnHarvest);
   return htmlEltBtnBlock;
@@ -63,6 +63,10 @@ FieldView.prototype.listen = function() {
   this.field.on('water_change', this.waterValueAction.bind(this));
   // level grow of the field
   this.field.on('level_change', this.levelValueAction.bind(this));
+  // the field is enable to be harvest
+  this.field.on('harvestable', this.enableHarvestAction.bind(this));
+  // the field is disable to be harvest
+  this.field.on('not_harvestable', this.disableHarvestAction.bind(this));
 };
 
 FieldView.prototype.waterValueAction = function() {
@@ -78,5 +82,13 @@ FieldView.prototype.attachEvent = function() {
   // event on click to irrigate button
   this.htmlEltBtnAddWater.click(this.emit.bind(this, 'fill_water'));
   // event on click to harvest button
-  this.htmlEltBtnAddWater.click(this.emit.bind(this, 'harvest_field'));
+  this.htmlEltBtnHarvest.click(this.emit.bind(this, 'harvest_field'));
+};
+
+FieldView.prototype.enableHarvestAction = function() {
+  this.htmlEltBtnHarvest.attr('disabled', false);
+};
+
+FieldView.prototype.disableHarvestAction = function() {
+  this.htmlEltBtnHarvest.attr('disabled', true);
 };

@@ -19,6 +19,8 @@ Field.prototype.setLevel = function(lvl) {
   if(this.level >= 100) {
     this.maturity = true;
     this.level = 100;
+    this.stop();
+    this.emit('harvestable');
   }
   return this;
 };
@@ -28,8 +30,9 @@ Field.prototype.setNbWaterLeft = function(water) {
     this.stop();
     this.destroyHarvest();
   } else {
+    // start irrigate if not already a Interval running and is not mature
+    if (!this.maturity) this.start();
     this.nbwaterLeft = +water;
-    this.grow();
     this.emit('water_change');
   }
   return this;
@@ -56,10 +59,26 @@ Field.prototype.stop = function() {
 
 Field.prototype.irrigate = function() {
   this.setNbWaterLeft(this.nbwaterLeft - conf.water.drink);
+  // don't grow field if the irrigate stop because of no more water left
+  if(this.idInterval && !this.maturity) {
+    this.grow();
+  }
+
 };
 
 Field.prototype.fillWater = function() {
-  if(!this.maturity) this.setNbWaterLeft(this.nbwaterLeft + 1);
+  this.setNbWaterLeft(this.nbwaterLeft + 1);
+};
+
+Field.prototype.harvest = function() {
+  // allow only if the field is already mature
+  if (this.maturity) {
+    this.setLevel(0);
+    this.maturity = false;
+    this.emit('harvest_field');
+    this.emit('not_harvestable');
+    this.start();
+  }
 };
 
 Field.prototype.grow = function() {

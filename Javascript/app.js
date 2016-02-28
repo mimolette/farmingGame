@@ -3,10 +3,13 @@ $(function() {
   // init variables
   var mainElt = $('#main-content');
 
-  // create a new field
-  var field1 = new Field();
-  var viewField1 = new FieldView(field1, mainElt);
   var fieldController = new FieldsController();
-  fieldController.addField({field: field1, view: viewField1});
+  // create 3 fields
+  for(var ii=0; ii<3; ii++) {
+    var field = new Field();
+    var viewField = new FieldView(field, mainElt);
+    fieldController.addField({field: field, view: viewField});
+  }
+
 
 });

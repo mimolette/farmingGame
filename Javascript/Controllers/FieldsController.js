@@ -20,6 +20,8 @@ FieldsController.prototype.listenView = function(view) {
   view.on('fill_water', this.fillWaterAction.bind(this, view.getField()));
   // listen the harvest of the field
   view.on('harvest_field', this.harvestAction.bind(this, view.getField()));
+  // check the defeat conditions
+  view.on('field_loose', this.looseAction.bind(this, view.getField()));
 };
 
 // function to fill the water of the field
@@ -34,4 +36,8 @@ FieldsController.prototype.harvestAction = function(field) {
 
 FieldsController.prototype.getViews = function() {
   return this.views;
+};
+
+FieldsController.prototype.looseAction = function(field) {
+  this.game.checkDefeat(field);
 };

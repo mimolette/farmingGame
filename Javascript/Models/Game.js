@@ -3,7 +3,6 @@ function Game() {
   this.cash = conf.game.initial.cash;
   this.supplyWater = conf.game.initial.supplyWater;
   this.running = false;
-  this.gameLoose = false;
   this.score = 0;
   this.fields = [];
   this.waterBank = null;
@@ -11,6 +10,7 @@ function Game() {
   this.fieldsDrinkingTime = conf.water.speed.initial;
   this.setSpeedHuman(this.fieldsDrinkingTime);
   this.idInterval = null;
+  this.fieldsLost = [];
 }
 
 // inheritance of EventEmitter object
@@ -72,7 +72,7 @@ Game.prototype.addField = function(field) {
 };
 
 Game.prototype.getFields = function() {
-  return this.fields();
+  return this.fields;
 };
 
 Game.prototype.startAction = function() {
@@ -99,20 +99,19 @@ Game.prototype.pauseAction = function() {
 
 Game.prototype.fillWater = function(field) {
   if(this.getSupplyWater()) {
-    var index = this.fields.indexOf(field);
-    if(~index && this.running) {
-      this.fields[index].fillWater();
-      this.fields[index].start(this.fieldsDrinkingTime);
+    if(this.running) {
+      this.removeFieldLost(field);
+      field.fillWater();
+      field.start(this.fieldsDrinkingTime);
       this.setSupplyWater(this.supplyWater - 1);
     }
   }
 };
 
 Game.prototype.harvestField = function(field) {
-  var index = this.fields.indexOf(field);
-  if(~index && this.running) {
-    this.fields[index].harvest();
-    this.fields[index].start(this.fieldsDrinkingTime);
+  if(this.running) {
+    field.harvest();
+    field.start(this.fieldsDrinkingTime);
     this.setCash(this.cash + conf.field.harvestPrice);
     this.setScore(this.score + conf.field.harvestScore);
   }
@@ -130,7 +129,7 @@ Game.prototype.getWaterBank = function() {
 Game.prototype.boughtWater = function(nbWater) {
   var totalPrice = +nbWater * this.waterBank.getPrice();
   if (this.cash >= totalPrice) {
-    // enough money to paiy the water
+    // enough money to pay the water
     // increase the number of water in tank
     this.addSupplyWater(+nbWater);
     this.setCash(this.cash - totalPrice);
@@ -178,4 +177,34 @@ Game.prototype.getSpeedHuman = function() {
 Game.prototype.setSpeedHuman = function(time) {
   this.speedHuman =  Math.round((1000 / +time)*100) / 100;
   this.emit('game_speed_change');
+};
+
+Game.prototype.checkDefeat = function(field) {
+  this.addFieldLost(field);
+  if(this.getFieldsLost().length >= conf.game.defeat.nbField) {
+    this.emit('LOOSE', this.getScore());
+    this.gameLooseAction();
+  }
+};
+
+Game.prototype.addFieldLost = function(field) {
+  var index = this.fieldsLost.indexOf(field);
+  if (!~index) {
+    this.fieldsLost.push(field);
+  }
+};
+
+Game.prototype.removeFieldLost = function(field) {
+  var index = this.fieldsLost.indexOf(field);
+  if (~index) {
+    this.fieldsLost.splice(index, 1);
+  }
+};
+
+Game.prototype.getFieldsLost = function() {
+  return this.fieldsLost;
+};
+
+Game.prototype.gameLooseAction = function() {
+  this.pauseDrinkCalculAction();
 };

@@ -8,13 +8,13 @@ progress[value] {
   appearance: none;
 
   width: 200px;
-  height: 10px;
+  height: 16px;
 }
 
 /* the progress bar container */
 progress[value]::-webkit-progress-bar {
   background-color: #eee;
-  border-radius: 5px;
+  border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
 }
 
@@ -29,6 +29,51 @@ progress[value]::-webkit-progress-value {
         rgba(0, 0, 0, 0.3)),
       -webkit-linear-gradient(left, rgba(181, 255, 56, 0.74), rgb(234, 255, 23));
 
-  border-radius: 5px;
+  border-radius: 8px;
   background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+
+.field-container {
+  margin: 8px;
+}
+
+.field-top-block {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.field-top-block button {
+  padding: 5px;
+  margin-left: 5px;
+  border-radius: 2px;
+
+}
+
+.field-water-container {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.field-water-container i {
+  font-size: 1.5em;
+  color: #3d9ade;
+}
+
+.field-water-nb {
+  color: midnightblue;
+}
+
+.field-progress-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.field-progress-value {
+  color: #aaa;
+  text-align: right;
 }

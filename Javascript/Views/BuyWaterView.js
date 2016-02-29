@@ -12,13 +12,13 @@ BuyWaterView.prototype.constructor = BuyWaterView;
 
 BuyWaterView.prototype.createHtml = function(eltParent) {
   this.htmlEltBtnBuyWater = $('<button class="game-btn">Acheter de l\'eau</button>');
-  this.htmlEltPopIn = this.createHtmlPopIn();
+  this.htmlEltPopIn = $('<div class="buy-water-block">').append(this.createHtmlPopIn());
 
   eltParent.append(this.htmlEltBtnBuyWater, this.htmlEltPopIn);
 };
 
 BuyWaterView.prototype.createHtmlPopIn = function() {
-  var eltBlock = $('<div class="buy-water-block">');
+  var eltBlock = $('<div class="buy-water-block-pop-in">');
 
   var eltHeader = $('<header class="buy-water-header">');
   var eltTitle = $('<h2>Acheter de l\'eau</h2>');
@@ -59,7 +59,7 @@ BuyWaterView.prototype.attachEvent = function() {
 };
 
 BuyWaterView.prototype.displayWaterBlock = function() {
-  this.htmlEltPopIn.css('display', 'block');
+  this.htmlEltPopIn.css('display', 'flex');
   this.htmlEltInputWater.val('').focus();
 };
 

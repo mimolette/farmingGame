@@ -1,3 +1,74 @@
 .btn-hidden {
   display: none;
 }
+
+/* Loose block */
+.game-loose{
+  display: none;
+  opacity: 0.0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.game-loose-label {
+  font-size: 2em;
+  color: #ff6954;
+}
+
+.game-loose-score {
+  font-size: 1.5em;
+  color: #ff9526;
+}
+
+.game-header-block {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.game-cash-block, .game-supply-block, .game-score-block {
+  margin-right: 10px;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-cash-label, .game-supply-label, .game-score-label {
+  color: #888;
+  min-width: 120px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 149, 38, 0.76);
+}
+
+.game-cash-value, .game-supply-value, .game-score-value, .field-speed-nb {
+  color: #ea3614;
+  min-width: 120px;
+  text-align: center;
+}
+
+.field-speed-container {
+  margin-right: 10px;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-header-block button {
+  padding: 10px;
+  border-radius: 4px;
+  min-width: 80px;
+}
+
+.game-block, .game-more-tools {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+}

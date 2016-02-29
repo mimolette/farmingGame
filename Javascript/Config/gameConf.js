@@ -16,6 +16,7 @@ var conf = {
       nbLiterWater : 5,
       supplyWater : 20
     },
-    time : { max : 1000*60*15 }
+    time : { max : 1000*60*15 },
+    defeat : { nbField : 3 }
   }
 };

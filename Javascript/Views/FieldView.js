@@ -68,6 +68,8 @@ FieldView.prototype.listen = function() {
   this.field.on('harvestable', this.enableHarvestAction.bind(this));
   // the field is disable to be harvest
   this.field.on('not_harvestable', this.disableHarvestAction.bind(this));
+  // this field is lost for a time, use to check the defeat conditions
+  this.field.on('field_loose', this.emit.bind(this, 'field_loose'));
 };
 
 FieldView.prototype.waterValueAction = function() {

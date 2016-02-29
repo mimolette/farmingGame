@@ -45,16 +45,14 @@ Field.prototype.getNbWaterLeft = function() {
 };
 
 Field.prototype.start = function(time) {
-  if(!this.idInterval) {
+  if(!this.idInterval && !this.maturity) {
     this.idInterval = setInterval(this.irrigate.bind(this),time);
   }
-  this.gamePaused = false;
 };
 
 Field.prototype.pause = function() {
   clearInterval(this.idInterval);
   this.idInterval = null;
-  this.gamePaused = true;
 };
 
 Field.prototype.stop = function() {
@@ -92,4 +90,7 @@ Field.prototype.grow = function() {
 Field.prototype.destroyHarvest = function() {
   this.setLevel(0);
   this.maturity = false;
+  if(this.getNbWaterLeft() === 0) {
+    this.emit('field_loose');
+  }
 };

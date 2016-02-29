@@ -6,7 +6,6 @@ function Field() {
   this.nbwaterLeft = conf.game.initial.nbLiterWater;
   this.idInterval = null;
   this.maturity = false;
-  this.gamePaused = true;
 }
 
 // make inheritance of EventEmitter
@@ -48,7 +47,7 @@ Field.prototype.getNbWaterLeft = function() {
 
 Field.prototype.start = function() {
   if(!this.idInterval) {
-    this.idInterval = setInterval(this.irrigate.bind(this),conf.water.speed);
+    this.idInterval = setInterval(this.irrigate.bind(this),conf.water.speed.initial);
   }
   this.gamePaused = false;
 };
@@ -74,14 +73,12 @@ Field.prototype.irrigate = function() {
 };
 
 Field.prototype.fillWater = function() {
-  if (!this.gamePaused) {
-    this.setNbWaterLeft(this.nbwaterLeft + 1);
-  }
+  this.setNbWaterLeft(this.nbwaterLeft + 1);
 };
 
 Field.prototype.harvest = function() {
   // allow only if the field is already mature
-  if (this.maturity && !this.gamePaused) {
+  if (this.maturity) {
     this.setLevel(0);
     this.maturity = false;
     this.emit('harvest_field');

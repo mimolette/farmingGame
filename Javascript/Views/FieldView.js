@@ -92,3 +92,7 @@ FieldView.prototype.enableHarvestAction = function() {
 FieldView.prototype.disableHarvestAction = function() {
   this.htmlEltBtnHarvest.attr('disabled', true);
 };
+
+FieldView.prototype.getField = function() {
+  return this.field;
+};

@@ -29,12 +29,17 @@ GameView.prototype.createHtmlHeader = function() {
   this.htmlEltWater = $('<span class="game-supply-value">' + this.game.getSupplyWater() + '</span>');
   var eltLabelUnity = $('<span class="game-supply-unity">L</span>');
 
+  var eltScoreBlock = $('<div class="game-score-block">');
+  var eltLabelScore = $('<span class="game-score-label">Nombre de récolte :</span>');
+  this.htmlEltScore = $('<span class="game-score-value">' + this.game.getScore() + '</span>');
+
   var eltBtnBlock = this.createHtmlBtnMenu();
 
   // add elt to parent
   eltCashBlock.append(eltLabelCash, this.htmlEltCash, eltLabelDevice);
   eltSupplyBlock.append(eltLabelSupply, this.htmlEltWater, eltLabelUnity);
-  return $('<div class="game-header-block">').append(eltCashBlock, eltSupplyBlock, eltBtnBlock);
+  eltScoreBlock.append(eltLabelScore, this.htmlEltScore);
+  return $('<div class="game-header-block">').append(eltCashBlock, eltSupplyBlock, eltScoreBlock, eltBtnBlock);
 
 };
 
@@ -59,6 +64,8 @@ GameView.prototype.listen = function() {
   this.game.on('supply_water_change', this.displayWaterSupplyAction.bind(this));
   this.game.on('game_no_more_water', this.emit.bind(this, 'game_no_more_water'));
   this.game.on('game_supply_water', this.emit.bind(this, 'game_supply_water'));
+  this.game.on('game_cash_change', this.displayCashAction.bind(this));
+  this.game.on('game_score_change', this.displayScoreAction.bind(this));
 };
 
 GameView.prototype.toggleBtnClass = function() {
@@ -68,6 +75,14 @@ GameView.prototype.toggleBtnClass = function() {
 
 GameView.prototype.displayWaterSupplyAction = function() {
   this.htmlEltWater.html(this.game.getSupplyWater());
+};
+
+GameView.prototype.displayCashAction = function() {
+  this.htmlEltCash.html(this.game.getCash());
+};
+
+GameView.prototype.displayScoreAction = function() {
+  this.htmlEltScore.html(this.game.getScore());
 };
 
 

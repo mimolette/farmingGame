@@ -1,59 +1,53 @@
-function FieldsController() {
+function FieldsController(game) {
 
   // array of field and views
-  this.fields = [];
+  this.views = [];
   this.allowFillWater = true;
+  this.game = game;
 
+  this.listen();
 }
 
 /**
  * take on object of field and associate view
  * @param fieldObj
  */
-FieldsController.prototype.addField = function(fieldObj) {
-  this.fields.push(fieldObj);
-  this.listen(fieldObj);
+FieldsController.prototype.addView = function(view) {
+  this.views.push(view);
+  this.listenView(view);
 };
 
-FieldsController.prototype.listen = function(field) {
+FieldsController.prototype.listen = function() {
+  this.game.on('game_no_more_water', this.supplyWaterAction.bind(this, false));
+  this.game.on('game_supply_water', this.supplyWaterAction.bind(this, true));
+};
+
+FieldsController.prototype.supplyWaterAction = function(bool) {
+  this.setAllowFillWater(bool);
+};
+
+FieldsController.prototype.listenView = function(view) {
   // listen the fill_water event
-  field.view.on('fill_water', this.fillWaterAction.bind(this, field));
+  view.on('fill_water', this.fillWaterAction.bind(this, view.getField()));
   // listen the harvest of the field
-  field.view.on('harvest_field', this.harvestAction.bind(this, field));
+  view.on('harvest_field', this.harvestAction.bind(this, view.getField()));
 };
 
 // function to fill the water of the field
 FieldsController.prototype.fillWaterAction = function(field) {
   if (this.allowFillWater) {
-    var index = this.fields.indexOf(field);
-    if(~index) {
-      this.fields[index].field.fillWater();
-    }
+    this.game.fillWater(field);
+    this.game.setSupplyWater(this.game.getSupplyWater() - 1);
   }
 };
 
 // function to harvest a field
 FieldsController.prototype.harvestAction = function(field) {
-  var index = this.fields.indexOf(field);
-  if(~index) {
-    this.fields[index].field.harvest();
-  }
+  this.game.harvestField(field);
 };
 
-FieldsController.prototype.gameStartAction = function() {
-  this.fields.forEach(function(field) {
-    field.field.start();
-  });
-};
-
-FieldsController.prototype.gamePauseAction = function() {
-  this.fields.forEach(function(field) {
-    field.field.pause();
-  });
-};
-
-FieldsController.prototype.getFields = function() {
-  return this.fields;
+FieldsController.prototype.getViews = function() {
+  return this.views;
 };
 
 FieldsController.prototype.getAllowFillWater = function() {

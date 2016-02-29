@@ -4,6 +4,8 @@ function Game() {
   this.supplyWater = conf.game.initial.supplyWater;
   this.running = false;
   this.gameLoose = false;
+  this.score = 0;
+  this.fields = [];
 }
 
 // inheritance of EventEmitter object
@@ -12,6 +14,7 @@ Game.prototype.constructor = Game;
 
 Game.prototype.setCash = function(cash) {
   this.cash = cash;
+  this.emit('game_cash_change');
   return this;
 };
 
@@ -48,4 +51,57 @@ Game.prototype.setRunning = function(bool) {
 
 Game.prototype.getRunning = function() {
   return this.running;
+};
+
+Game.prototype.getScore = function() {
+  return this.score;
+};
+
+Game.prototype.setScore = function(score) {
+  this.score = score;
+  this.emit('game_score_change');
+  return this;
+};
+
+Game.prototype.addField = function(field) {
+  this.fields.push(field);
+  return this;
+};
+
+Game.prototype.getFields = function() {
+  return this.fields();
+};
+
+Game.prototype.startAction = function() {
+  if (!this.running) {
+    this.running = true;
+    this.emit('game_status_change');
+    this.fields.forEach(function(field) {
+      field.start();
+    });
+  }
+};
+
+Game.prototype.pauseAction = function() {
+  if (this.running) {
+    this.running = false;
+    this.emit('game_status_change');
+    this.fields.forEach(function(field) {
+      field.pause();
+    });
+  }
+};
+
+Game.prototype.fillWater = function(field) {
+  var index = this.fields.indexOf(field);
+  if(~index && this.running) this.fields[index].fillWater();
+};
+
+Game.prototype.harvestField = function(field) {
+  var index = this.fields.indexOf(field);
+  if(~index && this.running) {
+    this.fields[index].harvest();
+    this.setCash(this.cash + conf.field.harvestPrice);
+    this.setScore(this.score + conf.field.harvestScore);
+  }
 };

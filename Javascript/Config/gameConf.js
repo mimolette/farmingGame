@@ -1,11 +1,13 @@
 var conf = {
   water : {
-    speed : 1000,
+    speed : { initial: 1000, current: 1000 },
     drink : 1,
     price : { initial : 1, current : 1 }
   },
   field : {
-    growSpeed : 10
+    growSpeed : 5,
+    harvestPrice : 40,
+    harvestScore : 1
   },
   game : {
     initial : {

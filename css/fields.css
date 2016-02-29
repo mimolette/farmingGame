@@ -21,13 +21,11 @@ progress[value]::-webkit-progress-bar {
 /* the value of the bar */
 progress[value]::-webkit-progress-value {
   background-image:
-      -webkit-linear-gradient(-45deg,
-        transparent 15%, rgba(0, 0, 0, .1) 15%,
-        rgba(0,0, 0, .1) 30%, transparent 30%,
-        transparent 45%, rgba(0, 0, 0, .1) 45%,
-        rgba(0,0, 0, .1) 60%, transparent 60%,
-        transparent 75%, rgba(0, 0, 0, .1) 75%,
-        rgba(0,0, 0, .1) 90%, transparent 90%),
+      -webkit-linear-gradient(135deg,
+        transparent 20%, rgba(0, 0, 0, .1) 20%,
+        rgba(0,0, 0, .1) 40%, transparent 40%,
+        transparent 60%, rgba(0, 0, 0, .1) 60%,
+        rgba(0,0, 0, .1) 80%, transparent 80%),
       -webkit-linear-gradient(top,
       rgba(255, 255, 255, 0.3),
         rgba(0, 0, 0, 0.3)),

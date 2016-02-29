@@ -43,9 +43,9 @@ FieldView.prototype.createHtmlWaterBlock = function() {
   var htmlEltWaterBlock = $('<div class="field-water-container">');
   var htmlEltIcone = $('<i class="fa fa-tint"></i>');
   this.htmlEltWaterNb = $('<span class="field-water-nb">' + this.field.getNbWaterLeft() + '</span>');
-  var hmtlEltUnit = $('<span class="field-water-unit">L</span>');
+  //var hmtlEltUnit = $('<span class="field-water-unit">L</span>');
 
-  htmlEltWaterBlock.append(htmlEltIcone, this.htmlEltWaterNb, hmtlEltUnit);
+  htmlEltWaterBlock.append(htmlEltIcone, this.htmlEltWaterNb);
   return htmlEltWaterBlock;
 };
 

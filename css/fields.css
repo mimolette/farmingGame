@@ -64,6 +64,14 @@ progress[value]::-webkit-progress-value {
 
 .field-water-nb {
   color: midnightblue;
+  font-size: 1.8em;
+  margin-left: 8px;
+  margin-right: 3px;
+}
+
+.field-water-unit {
+  font-size: 0.8em;
+  color: #999;
 }
 
 .field-progress-container {

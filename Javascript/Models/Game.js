@@ -147,6 +147,9 @@ Game.prototype.addSupplyWater = function(nbWater) {
 };
 
 Game.prototype.setFieldsDrinkingTime = function(time) {
+  if (time <= conf.water.speed.max) {
+    this.pauseDrinkCalculAction();
+  }
   this.fieldsDrinkingTime = time;
   this.setSpeedHuman(time);
   return this;

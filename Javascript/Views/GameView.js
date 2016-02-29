@@ -39,7 +39,7 @@ GameView.prototype.createHtmlHeader = function() {
   //var eltLabelUnity = $('<span class="game-supply-unity">L</span>');
 
   var eltScoreBlock = $('<div class="game-score-block">');
-  var eltLabelScore = $('<span class="game-score-label">Nombre de récolte</span>');
+  var eltLabelScore = $('<span class="game-score-label">Nombre de récoltes</span>');
   this.htmlEltScore = $('<span class="game-score-value">' + this.game.getScore() + '</span>');
 
   var eltSpeedBlock = this.createHtmlSpeedBlock();

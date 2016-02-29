@@ -22,14 +22,12 @@ progress[value]::-webkit-progress-bar {
 progress[value]::-webkit-progress-value {
   background-image:
       -webkit-linear-gradient(135deg,
-        transparent 20%, rgba(0, 0, 0, .1) 20%,
-        rgba(0,0, 0, .1) 40%, transparent 40%,
-        transparent 60%, rgba(0, 0, 0, .1) 60%,
-        rgba(0,0, 0, .1) 80%, transparent 80%),
+        transparent 33%, rgba(0, 0, 0, .1) 33%,
+        rgba(0,0, 0, .1) 66%, transparent 66%),
       -webkit-linear-gradient(top,
       rgba(255, 255, 255, 0.3),
         rgba(0, 0, 0, 0.3)),
-      -webkit-linear-gradient(left, rgba(137, 255, 59, 0.41), rgba(137, 255, 59, 1));
+      -webkit-linear-gradient(left, rgba(181, 255, 56, 0.74), rgb(234, 255, 23));
 
   border-radius: 5px;
   background-size: 35px 20px, 100% 100%, 100% 100%;

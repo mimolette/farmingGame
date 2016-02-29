@@ -6,6 +6,11 @@ function Game() {
   this.gameLoose = false;
   this.score = 0;
   this.fields = [];
+  this.waterBank = null;
+  this.timeRewrite = conf.game.time.max / (conf.water.speed.initial - conf.water.speed.max);
+  this.fieldsDrinkingTime = conf.water.speed.initial;
+  this.setSpeedHuman(this.fieldsDrinkingTime);
+  this.idInterval = null;
 }
 
 // inheritance of EventEmitter object
@@ -27,10 +32,8 @@ Game.prototype.setSupplyWater = function(water) {
     // check if always water supply
     if(+water <= 0) {
       this.supplyWater = 0;
-      this.emit('game_no_more_water');
     } else {
       this.supplyWater = +water;
-      this.emit('game_supply_water');
     }
     this.emit('supply_water_change');
   }
@@ -75,16 +78,18 @@ Game.prototype.getFields = function() {
 Game.prototype.startAction = function() {
   if (!this.running) {
     this.running = true;
+    this.startDrinkCalculAction();
     this.emit('game_status_change');
     this.fields.forEach(function(field) {
-      field.start();
-    });
+      field.start(this.fieldsDrinkingTime);
+    }, this);
   }
 };
 
 Game.prototype.pauseAction = function() {
   if (this.running) {
     this.running = false;
+    this.pauseDrinkCalculAction();
     this.emit('game_status_change');
     this.fields.forEach(function(field) {
       field.pause();
@@ -93,15 +98,84 @@ Game.prototype.pauseAction = function() {
 };
 
 Game.prototype.fillWater = function(field) {
-  var index = this.fields.indexOf(field);
-  if(~index && this.running) this.fields[index].fillWater();
+  if(this.getSupplyWater()) {
+    var index = this.fields.indexOf(field);
+    if(~index && this.running) {
+      this.fields[index].fillWater();
+      this.fields[index].start(this.fieldsDrinkingTime);
+      this.setSupplyWater(this.supplyWater - 1);
+    }
+  }
 };
 
 Game.prototype.harvestField = function(field) {
   var index = this.fields.indexOf(field);
   if(~index && this.running) {
     this.fields[index].harvest();
+    this.fields[index].start(this.fieldsDrinkingTime);
     this.setCash(this.cash + conf.field.harvestPrice);
     this.setScore(this.score + conf.field.harvestScore);
   }
+};
+
+Game.prototype.setWaterBank = function(waterBank) {
+  this.waterBank = waterBank;
+  return this;
+};
+
+Game.prototype.getWaterBank = function() {
+  return this.waterBank;
+};
+
+Game.prototype.boughtWater = function(nbWater) {
+  var totalPrice = +nbWater * this.waterBank.getPrice();
+  if (this.cash >= totalPrice) {
+    // enough money to paiy the water
+    // increase the number of water in tank
+    this.addSupplyWater(+nbWater);
+    this.setCash(this.cash - totalPrice);
+    this.waterBank.transactionFinished();
+  } else {
+    // not enough money
+    this.waterBank.transactionError();
+  }
+};
+
+Game.prototype.addSupplyWater = function(nbWater) {
+  this.supplyWater += +nbWater;
+  this.emit('supply_water_change');
+  this.emit('game_supply_water');
+};
+
+Game.prototype.setFieldsDrinkingTime = function(time) {
+  this.fieldsDrinkingTime = time;
+  this.setSpeedHuman(time);
+  return this;
+};
+
+Game.prototype.getFieldsDrinkingTime = function() {
+  return this.fieldsDrinkingTime;
+};
+
+Game.prototype.startDrinkCalculAction = function() {
+  if (!this.idInterval && this.fieldsDrinkingTime > conf.water.speed.max) {
+    // define the rule to calculate the new field'speed of drinking water over the time
+    this.idInterval = setInterval(function() {
+      this.setFieldsDrinkingTime(this.fieldsDrinkingTime - 1);
+    }.bind(this), this.timeRewrite);
+  }
+};
+
+Game.prototype.pauseDrinkCalculAction = function() {
+  clearInterval(this.idInterval);
+  this.idInterval = null;
+};
+
+Game.prototype.getSpeedHuman = function() {
+  return this.speedHuman;
+};
+
+Game.prototype.setSpeedHuman = function(time) {
+  this.speedHuman =  Math.round((1000 / +time)*100) / 100;
+  this.emit('game_speed_change');
 };

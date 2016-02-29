@@ -1,0 +1,10 @@
+.buy-water-block{
+  display: none;
+}
+
+.water-block-error {
+  opacity: 0.0;
+  color: red;
+  font-style: italic;
+  font-size: 0.8em;
+}

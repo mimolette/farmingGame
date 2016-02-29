@@ -29,8 +29,7 @@ Field.prototype.setNbWaterLeft = function(water) {
     this.stop();
     this.destroyHarvest();
   } else {
-    // start irrigate if not already a Interval running and is not mature
-    if (!this.maturity) this.start();
+    //if(!this.idInterval && !this.maturity) this.start(time);
     this.nbwaterLeft = +water;
     this.emit('water_change');
   }
@@ -45,9 +44,9 @@ Field.prototype.getNbWaterLeft = function() {
   return this.nbwaterLeft;
 };
 
-Field.prototype.start = function() {
+Field.prototype.start = function(time) {
   if(!this.idInterval) {
-    this.idInterval = setInterval(this.irrigate.bind(this),conf.water.speed.initial);
+    this.idInterval = setInterval(this.irrigate.bind(this),time);
   }
   this.gamePaused = false;
 };
@@ -83,7 +82,6 @@ Field.prototype.harvest = function() {
     this.maturity = false;
     this.emit('harvest_field');
     this.emit('not_harvestable');
-    this.start();
   }
 };
 
@@ -95,4 +93,3 @@ Field.prototype.destroyHarvest = function() {
   this.setLevel(0);
   this.maturity = false;
 };
-

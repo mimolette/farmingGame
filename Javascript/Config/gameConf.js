@@ -1,6 +1,6 @@
 var conf = {
   water : {
-    speed : { initial: 1000, current: 1000 },
+    speed : { initial: 1000, max : 500 },
     drink : 1,
     price : { initial : 1, current : 1 }
   },
@@ -15,6 +15,7 @@ var conf = {
       nbFields : 3,
       nbLiterWater : 5,
       supplyWater : 20
-    }
+    },
+    time : { max : 1000*60*15 }
   }
 };

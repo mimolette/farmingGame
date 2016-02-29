@@ -14,8 +14,10 @@ GameView.prototype.createHtml = function(eltParent) {
 
   this.htmlEltGameBlock = $('<div class="game-block">');
 
+  this.htmlEltMoreTools = $('<div class="game-more-tools">');
+
   // add the entire game bock to eltParent
-  eltParent.append(this.htmlEltHeaderGameBlock, this.htmlEltGameBlock);
+  eltParent.append(this.htmlEltHeaderGameBlock, this.htmlEltGameBlock, this.htmlEltMoreTools);
 };
 
 GameView.prototype.createHtmlHeader = function() {
@@ -33,14 +35,27 @@ GameView.prototype.createHtmlHeader = function() {
   var eltLabelScore = $('<span class="game-score-label">Nombre de récolte :</span>');
   this.htmlEltScore = $('<span class="game-score-value">' + this.game.getScore() + '</span>');
 
+  var eltSpeedBlock = this.createHtmlSpeedBlock();
+
   var eltBtnBlock = this.createHtmlBtnMenu();
 
   // add elt to parent
   eltCashBlock.append(eltLabelCash, this.htmlEltCash, eltLabelDevice);
   eltSupplyBlock.append(eltLabelSupply, this.htmlEltWater, eltLabelUnity);
   eltScoreBlock.append(eltLabelScore, this.htmlEltScore);
-  return $('<div class="game-header-block">').append(eltCashBlock, eltSupplyBlock, eltScoreBlock, eltBtnBlock);
+  return $('<div class="game-header-block">')
+      .append(eltCashBlock, eltSupplyBlock, eltScoreBlock, eltBtnBlock, eltSpeedBlock);
 
+};
+
+GameView.prototype.createHtmlSpeedBlock = function() {
+  var htmlEltSpeedBlock = $('<div class="field-speed-container">');
+  var htmlEltIcone = $('<i class="fa fa-line-chart"></i>');
+  this.htmlEltSpeedNb = $('<span class="field-speed-nb">' + this.game.getSpeedHuman() + '</span>');
+  var hmtlEltUnit = $('<span class="field-water-unit">L/s</span>');
+
+  htmlEltSpeedBlock.append(htmlEltIcone, this.htmlEltSpeedNb, hmtlEltUnit);
+  return htmlEltSpeedBlock;
 };
 
 GameView.prototype.createHtmlBtnMenu = function() {
@@ -66,6 +81,7 @@ GameView.prototype.listen = function() {
   this.game.on('game_supply_water', this.emit.bind(this, 'game_supply_water'));
   this.game.on('game_cash_change', this.displayCashAction.bind(this));
   this.game.on('game_score_change', this.displayScoreAction.bind(this));
+  this.game.on('game_speed_change', this.speedValueAction.bind(this));
 };
 
 GameView.prototype.toggleBtnClass = function() {
@@ -83,6 +99,10 @@ GameView.prototype.displayCashAction = function() {
 
 GameView.prototype.displayScoreAction = function() {
   this.htmlEltScore.html(this.game.getScore());
+};
+
+GameView.prototype.speedValueAction = function() {
+  this.htmlEltSpeedNb.html(this.game.getSpeedHuman());
 };
 
 

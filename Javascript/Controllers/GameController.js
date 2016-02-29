@@ -22,6 +22,11 @@ GameController.prototype.gamePauseAction = function() {
 
 GameController.prototype.init = function() {
 
+  // instance of waterBank, view and controller
+  this.game.setWaterBank(new WaterBank());
+  var buyWaterView = new BuyWaterView(this.game.getWaterBank(), this.view.htmlEltMoreTools);
+  var buyWaterController = new BuyWaterController(this.game, buyWaterView);
+
   var fieldsController = new FieldsController(this.game);
 
   // create all fields

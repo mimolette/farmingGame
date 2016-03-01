@@ -33,7 +33,7 @@ ScoreBoardView.prototype.createHtmlInputPlayerName = function() {
 ScoreBoardView.prototype.createHtmlScoreBoard = function() {
   this.htmlEltScoreBoardBlock = $('<table class="score-board-table">');
   var eltLineTop = $('<tr><th>Player</th><th>Nombre de récoltes</th></tr>');
-  var eltLinePlayer = $('<tr>');
+  var eltLinePlayer = $('<tr class="score-player-line">');
   this.htmlEltPlayerName = $('<td>');
   var eltScoreName = $('<td>' + this.scoreBoard.getPlayerScore() + '</td>');
   eltLinePlayer.append(this.htmlEltPlayerName, eltScoreName);

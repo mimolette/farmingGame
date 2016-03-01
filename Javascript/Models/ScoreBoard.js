@@ -55,9 +55,5 @@ ScoreBoard.prototype.sendPlayerScore = function() {
     method: "POST",
     dataType: "json",
     data: { name : this.playerName, score: this.playerScore }
-  }).done(function(data) {
-    //console.log(data);
-  }).fail(function() {
-    console.log('Error lors de la requête');
   });
 };

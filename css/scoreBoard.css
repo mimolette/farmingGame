@@ -1,0 +1,40 @@
+.score-board-table {
+  display: none;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.score-board-table th {
+  padding: 8px;
+  min-width: 100px;
+  background-color: #719cff;
+  font-size: 1.3em;
+  color: white;
+}
+
+.score-board-table tr:not(:first-child) {
+  border: 1px solid #00B7FF;
+}
+
+.score-board-table td {
+  padding: 4px;
+  min-width: 100px;
+  color: #666666;
+}
+
+.score-board-table td:last-child {
+  text-align: center;
+  font-size: 1.8em;
+}
+
+.score-board-table td:first-child {
+  text-align: right;
+}
+
+.score-player-line {
+  background-color: #d07527;
+}
+
+.score-player-line td {
+  color: #bd4023;
+}

@@ -13,7 +13,7 @@ var conf = {
     initial : {
       cash : 50,
       nbFields : 3,
-      nbLiterWater : 1,
+      nbLiterWater : 5,
       supplyWater : 20
     },
     time : { max : 1000*60*15 },

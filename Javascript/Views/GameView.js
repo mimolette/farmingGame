@@ -128,7 +128,9 @@ GameView.prototype.looseAction = function(score) {
       .css('display', 'flex')
       .animate({ opacity: 1.0 }, 500, function() {
         this.htmlEltLooseLabel.animate({ fontSize : '10em' }, 1200);
-        this.htmlEltLoosescore.animate({ fontSize : '6em' }, 1200);
+        this.htmlEltLoosescore.animate({ fontSize : '6em' }, 1200, function() {
+          this.emit('LOOSE', score);
+        }.bind(this));
       }.bind(this));
 };
 

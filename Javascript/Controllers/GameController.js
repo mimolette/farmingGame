@@ -10,6 +10,7 @@ GameController.prototype.listen = function() {
   // listen on view envents
   this.view.on('game_start', this.gameStartAction.bind(this));
   this.view.on('game_pause', this.gamePauseAction.bind(this));
+  this.view.on('LOOSE', this.looseAction.bind(this));
 };
 
 GameController.prototype.gameStartAction = function() {
@@ -43,4 +44,11 @@ GameController.prototype.init = function() {
 
 GameController.prototype.fillWaterAction = function() {
   this.game.setSupplyWater(this.game.getSupplyWater() - 1);
+};
+
+GameController.prototype.looseAction = function(score) {
+  // create a scoreBoard instance
+  var scoreBoard = new ScoreBoard(score);
+  var scoreBoardView = new ScoreBoardView(scoreBoard, this.view.htmlEltLooseBlock);
+  var scoreBoardController = new ScoreBoardController(scoreBoardView, scoreBoard);
 };
